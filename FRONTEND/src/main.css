@@ -15,6 +15,7 @@ body {
 
 .main {
   flex: 1;
+  min-height: calc(100vh - 145px);
 }
 
 .bg-dark {
@@ -71,7 +72,7 @@ body {
 }
 
 .hero {
-  background-image: url('../img/bank-tree.jpeg');
+  background-image: url('./assets/bank-tree.webp');
   background-position: 0 -50px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -170,8 +171,11 @@ body {
   background-color: white;
   width: 300px;
   margin: 0 auto;
-  margin-top: 3rem;
   padding: 2rem;
+}
+
+.sign-in-wrapper {
+  padding-top: 3rem;
 }
 
 .sign-in-icon {
@@ -207,6 +211,7 @@ body {
   justify-content: center;
   border-top: 2px solid #ccc;
   padding: 2rem 0 1.5rem;
+  height: 20px;
 }
 
 .footer-text {
@@ -262,6 +267,7 @@ body {
 .header {
   color: #fff;
   margin-bottom: 2rem;
+  padding-top: 1rem;
 }
 
 .transaction-button {
