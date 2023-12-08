@@ -1,4 +1,4 @@
-import { LOAD_GET_USER, LOAD_GET_USER_SUCCESS, LOAD_GET_USER_ERROR } from '../../utils/const';
+import { GET_USER, GET_USER_SUCCESS, GET_USER_ERROR } from '../../utils/const';
 
 const initialStateToken = {
   isLoading: false,
@@ -8,19 +8,19 @@ const initialStateToken = {
 
 const getUserReducer = (state = initialStateToken, action) => {
   switch (action.type) {
-    case LOAD_GET_USER:
+    case GET_USER:
       return {
         ...state,
         isLoading: true
       }
-    case LOAD_GET_USER_SUCCESS:
+    case GET_USER_SUCCESS:
       return {
         ...state,
         isLoading: false,
         user: action.payload,
         error: ''
       }
-    case LOAD_GET_USER_ERROR:
+    case GET_USER_ERROR:
       return {
         ...state,
         isLoading: false,

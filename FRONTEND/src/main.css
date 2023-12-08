@@ -206,6 +206,11 @@ body {
   font-size: 1.2rem;
 }
 
+.error-message {
+  font-size: 1em;
+  color: red;
+}
+
 .footer {
   display: flex;
   justify-content: center;

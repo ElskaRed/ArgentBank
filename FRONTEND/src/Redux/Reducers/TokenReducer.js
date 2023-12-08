@@ -1,32 +1,38 @@
-import { LOAD_TOKEN, LOAD_TOKEN_SUCCESS, LOAD_TOKEN_ERROR } from '../../utils/const';
+import { GET_TOKEN, GET_TOKEN_SUCCESS, GET_TOKEN_ERROR, LOGOUT_USER } from '../../utils/const';
 
 const initialStateToken = {
-  isLoading: false,
+  isGETing: false,
   token: '',
   error: '',
 }
 
 const tokenReducer = (state = initialStateToken, action) => {
   switch (action.type) {
-    case LOAD_TOKEN:
+    case GET_TOKEN:
       return {
         ...state,
-        isLoading: true
+        isGETing: true
       }
-    case LOAD_TOKEN_SUCCESS:
+    case GET_TOKEN_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        token: action.payload,
+        isGETing: false,
+        token: action.payGET,
         error: ''
       }
-    case LOAD_TOKEN_ERROR:
+    case GET_TOKEN_ERROR:
       return {
         ...state,
-        isLoading: false,
+        isGETing: false,
         token: '',
-        error: action.payload
+        error: action.payGET
       }
+    case LOGOUT_USER: {
+      return {
+        ...state,
+        token: '',
+      };
+    }
     default:
       return state
   }

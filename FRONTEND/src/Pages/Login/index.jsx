@@ -1,29 +1,42 @@
-import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getToken } from '../../Redux/Actions/token';
 import { getUser } from '../../Redux/Actions/user';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [rememberMe, setRememberMe] = useState(false);
+    const [error, setError] = useState('');
     const token = useSelector(selectToken)
     const dispatch = useDispatch()
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        rememberMe ? localStorage.setItem("userNAme", userName) : localStorage.removeItem("userName");
-        dispatch(getToken(userName, password))
-        if (token) {
-          login(token)
+        setError('');
+      
+        try {
+          rememberMe ? localStorage.setItem('userName', userName) : localStorage.removeItem('userName');
+          console.log('Before dispatching getToken');
+          await dispatch(getToken(userName, password));
+          console.log('After dispatching getToken');
+      
+          if (token) {
+            login(token);
+          }
+        } catch (error) {
+          console.error('Error during login:', error);
+          setError('Your username or password is invalid');
         }
+      };
     
-      }
-    
-      const login = (token) => {
-        dispatch(getUser(token))
-      }
+    const login = (token) => {
+        dispatch(getUser(token));
+        navigate('/user');
+      };
 
       const handleRememberMe = () => {
 		setRememberMe(!rememberMe);
@@ -33,11 +46,10 @@ function Login() {
 		<main className="main bg-dark">
             <div className="sign-in-wrapper">
                 <section className="sign-in-content">
-                    <i className="fa fa-user-circle sign-in-icon"></i>
                     <h1>Sign In</h1>
                     <form onSubmit={handleSubmit}>
                         <div className="input-wrapper">
-                            <label for="username">Username</label>
+                            <label htmlFor="username">Username</label>
                             <input 
                                 type="text" 
                                 id="username" 
@@ -48,7 +60,7 @@ function Login() {
                             />
                         </div>
                         <div className="input-wrapper">
-                            <label for="password">Password</label>
+                            <label htmlFor="password">Password</label>
                             <input 
                                 type="password" 
                                 id="password" 
@@ -60,16 +72,12 @@ function Login() {
                         </div>
                         <div className="input-remember">
                             <input type="checkbox" id="remember-me" onChange={handleRememberMe} />
-                            <label for="remember-me">Remember me</label>
+                            <label htmlFor="remember-me">Remember me</label>
                         </div>
-
-                        {/*Placeholder*/}
-                        <Link to="/user" className="sign-in-button">
-                            {" "}
-                            Sign In{" "}
-                        </Link>
-
-                        {/*Placeholder*/}
+                        <button type="submit" className="sign-in-button">
+						    Sign In
+					    </button>
+                        {error && <p className="error-message">{error}</p>}
                     </form>
                 </section>
             </div>
