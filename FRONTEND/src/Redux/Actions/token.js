@@ -27,11 +27,11 @@ const loadApiTokenError = (error) => {
   }
 }
 
-export const getToken = (userName, password) => {
+export const getToken = (email, password) => {
   return async (dispatch) => {
     dispatch(loadApiToken());
     try {
-      const response = await axios.post(baseURL + 'login', { userName, password });
+      const response = await axios.post(baseURL + 'login', { email, password });
       dispatch(loadApiTokenSuccess(response.data.body.token));
     } catch (error) {
       dispatch(loadApiTokenError(error.message));
