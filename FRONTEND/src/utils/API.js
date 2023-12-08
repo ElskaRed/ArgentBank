@@ -2,11 +2,11 @@ import axios from 'axios'
 
 const baseURL = 'http://localhost:3001/api/v1/user/'
 
-export function getToken(userName, password) {
+export function getToken(email, password) {
   try {
     axios
       .post(baseURL + 'login', {
-        userName,
+        email,
         password,
       })
       .then((response) => {

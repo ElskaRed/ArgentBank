@@ -20,7 +20,11 @@ function Login() {
   
       try {
         rememberMe ? localStorage.setItem('email', email) : localStorage.removeItem('email');
+        console.log('Email:', email);
+        console.log('Password:', password);
         await dispatch(getToken(email, password)); 
+
+        console.log('Token:', token);
   
         if (token) {
           login(token);
