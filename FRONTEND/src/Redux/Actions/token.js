@@ -32,7 +32,11 @@ export const getToken = (email, password) => {
     dispatch(loadApiToken());
     try {
       const response = await axios.post(baseURL + 'login', { email, password });
-      dispatch(loadApiTokenSuccess(response.data.body.token));
+      const token = response.data.body.token;
+      dispatch(loadApiTokenSuccess(token));
+      localStorage.setItem('token', token);
+      console.log('token:',token)
+
     } catch (error) {
       dispatch(loadApiTokenError(error.message));
       throw error;

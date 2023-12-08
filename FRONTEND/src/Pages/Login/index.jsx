@@ -23,8 +23,6 @@ function Login() {
         console.log('Email:', email);
         console.log('Password:', password);
         await dispatch(getToken(email, password)); 
-
-        console.log('Token:', token);
   
         if (token) {
           login(token);
