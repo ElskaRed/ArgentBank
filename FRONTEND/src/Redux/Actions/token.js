@@ -1,45 +1,52 @@
-import axios from 'axios'
-import {
-  GET_TOKEN,
-  GET_TOKEN_SUCCESS,
-  GET_TOKEN_ERROR,
-} from '../../utils/const';
+import { createAction } from '@reduxjs/toolkit';
+import { loadUser } from '../Actions/user';
+import axios from 'axios';
 
 const baseURL = 'http://localhost:3001/api/v1/user/'
 
-const loadApiToken = () => {
+export const getToken = createAction('GET_TOKEN', () => {
   return {
-    type: GET_TOKEN,
-  }
-}
-
-const loadApiTokenSuccess = (token) => {
-  return {
-    type: GET_TOKEN_SUCCESS,
-    payload: token,
-  }
-}
-
-const loadApiTokenError = (error) => {
-  return {
-    type: GET_TOKEN_ERROR,
-    payload: error,
-  }
-}
-
-export const getToken = (email, password) => {
-  return async (dispatch) => {
-    dispatch(loadApiToken());
-    try {
-      const response = await axios.post(baseURL + 'login', { email, password });
-      const token = response.data.body.token;
-      dispatch(loadApiTokenSuccess(token));
-      localStorage.setItem('token', token);
-      console.log('token:',token)
-
-    } catch (error) {
-      dispatch(loadApiTokenError(error.message));
-      throw error;
-    }
+    payload: undefined,
   };
-};
+});
+
+export const getTokenSuccess = createAction(
+  'GET_TOKEN_SUCCESS',
+  (token) => {
+    return {
+      payload: token,
+    }
+  }
+);
+
+export const getTokenError = createAction(
+  'GET_TOKEN_ERROR',
+  (error) => {
+    return {
+      payload: error,
+    }
+  }
+);
+
+export const logoutUser = createAction('LOGOUT_USER');
+
+export const loadToken = (email, password) => {
+  return (dispatch) => {
+    dispatch(getToken())
+    axios
+      .post(baseURL + 'login', {
+        email,
+        password,
+      })
+      .then((response) => {
+        dispatch(getTokenSuccess(response.data.body.token))
+        localStorage.setItem('token', response.data.body.token)
+        const token = localStorage.getItem('token')
+        dispatch(loadUser(token))
+      })
+      .catch((error) => {
+        dispatch(getTokenError(error.message))
+      })
+  }
+}
+

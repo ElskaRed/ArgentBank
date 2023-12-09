@@ -22,7 +22,7 @@ function Router() {
 					<Footer />
 				</BrowserRouter>
 			</React.StrictMode>
-		</Provider>
+		// </Provider>
 	);
 }
 

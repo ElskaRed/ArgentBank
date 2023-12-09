@@ -1,35 +1,35 @@
-import { GET_USER, GET_USER_SUCCESS, GET_USER_ERROR } from '../../utils/const';
+import { createReducer } from '@reduxjs/toolkit';
+import { loadUser, getUserSuccess, getUserError } from '../Actions/user';
 
-const initialStateToken = {
+const initialStateUser = {
   isLoading: false,
+  isLoggedIn: false,
   user: {},
   error: '',
-}
+};
 
-const getUserReducer = (state = initialStateToken, action) => {
-  switch (action.type) {
-    case GET_USER:
-      return {
-        ...state,
-        isLoading: true
-      }
-    case GET_USER_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        user: action.payload,
-        error: ''
-      }
-    case GET_USER_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        user: {},
-        error: action.payload
-      }
-    default:
-      return state
-  }
-}
+export const getUserReducer = createReducer(initialStateUser, (builder) => {
+  console.log(loadUser.type);
+  console.log(getUserSuccess.type);
+  console.log(getUserError.type);
 
-export default getUserReducer
+  return builder
+     .addCase(loadUser, (state) => {
+       state.isLoading = true;
+       state.isLoggedIn = false;
+       state.user = {};
+       state.error = '';
+     })
+     .addCase(getUserSuccess, (state, action) => {
+       state.isLoading = false;
+       state.isLoggedIn = true;
+       state.user = action.payload;
+       state.error = '';
+     })
+     .addCase(getUserError, (state, action) => {
+       state.isLoading = false;
+       state.isLoggedIn = false;
+       state.user = {};
+       state.error = action.payload;
+     });
+ });

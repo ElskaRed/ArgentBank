@@ -1,14 +1,12 @@
-import { applyMiddleware, createStore, combineReducers } from "redux";
-import thunk from "redux-thunk";
-import UserReducer from "../Reducers/UserReducer";
-import TokenReducer from "../Reducers/TokenReducer";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { configureStore } from '@reduxjs/toolkit';
+import { getUserReducer } from '../Reducers/UserReducer';
+import { tokenReducer } from '../Reducers/TokenReducer';
 
-const rootReducer = combineReducers({
-  token: TokenReducer,
-  user: UserReducer
-})
+const store = configureStore({
+  reducer: {
+    token: tokenReducer,
+    user: getUserReducer,
+  },
+});
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
-
-export default store
+export default store;

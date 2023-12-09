@@ -1,15 +1,13 @@
 import { NavLink, Link } from "react-router-dom";
 import logo from '../../assets/argentBankLogo.webp';
-import { useSelector, useDispatch } from 'react-redux';
-import { logoutUser } from '../../Redux/Actions/logout';
+// import { useSelector } from 'react-redux';
 
 const Header = () => {
-	const selectToken = (state) => state.token.token;
-	const token = useSelector(selectToken);
-	const dispatch = useDispatch();
+	// const selectToken = (state) => state.token.token;
+	// const token = useSelector(selectToken);
 
 	const logout = () => {
-		dispatch(logoutUser());
+		console.log('test')
 	  };
 	
     return (
@@ -19,7 +17,7 @@ const Header = () => {
 				<h1 className="sr-only">Argent Bank</h1>
 			</Link>
 			<div>
-				{token ? (
+				{/* {token ? (
 					<button type="button" onClick={logout} className="main-nav-link">
 						Logout
 					</button>
@@ -28,7 +26,7 @@ const Header = () => {
 						<i className="fa fa-user-circle"></i>
 						Sign In
 					</NavLink>
-				)}
+				)} */}
 			</div>
 		</nav>
     );

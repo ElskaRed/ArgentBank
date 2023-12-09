@@ -1,36 +1,41 @@
-import axios from 'axios'
-import { GET_USER, GET_USER_SUCCESS, GET_USER_ERROR } from '../../utils/const';
+import { createAction } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-const baseURL = 'http://localhost:3001/api/v1/user/'
+const baseURL = 'http://localhost:3001/api/v1/user/';
 
-const loadApiUser = () => {
-  return {
-    type: GET_USER,
-  }
-}
+export const getUser = createAction('GET_USER');
 
-const loadApiUserSuccess = (user) => {
-  return {
-    type: GET_USER_SUCCESS,
-    payload: user,
-  }
-}
-
-const loadApiUserError = (error) => {
-  return {
-    type: GET_USER_ERROR,
-    payload: error,
-  }
-}
-
-export const getUser = (token) => {
-  return async (dispatch) => {
-    dispatch(loadApiUser());
-    try {
-      const response = await axios.post(baseURL + 'profile', {}, { headers: { Authorization: `Bearer ${token}` } });
-      dispatch(loadApiUserSuccess(response.data.body));
-    } catch (error) {
-      dispatch(loadApiUserError(error.message));
+export const getUserSuccess = createAction(
+  'GET_USER_SUCCESS',
+  (user) => {
+    return {
+      payload: user,
     }
-  };
-};
+  }
+);
+
+export const getUserError = createAction(
+  'GET_USER_ERROR',
+  (error) => {
+    return {
+      payload: error,
+    }
+  }
+);
+
+export const loadUser = (token) => {
+  return (dispatch) => {
+    dispatch(getUser())
+    axios({
+      method: 'POST',
+      url: baseURL + 'profile',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        dispatch(getUserSuccess(response.data))
+      })
+      .catch((error) => {
+        dispatch(getUserError(error.message))
+      })
+  }
+}
