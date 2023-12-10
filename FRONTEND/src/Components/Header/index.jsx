@@ -1,10 +1,10 @@
 import { NavLink, Link } from "react-router-dom";
 import logo from '../../assets/argentBankLogo.webp';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
-	// const selectToken = (state) => state.token.token;
-	// const token = useSelector(selectToken);
+	const selectToken = (state) => state.token.token;
+	const token = useSelector(selectToken);
 
 	const logout = () => {
 		console.log('test')
@@ -17,7 +17,7 @@ const Header = () => {
 				<h1 className="sr-only">Argent Bank</h1>
 			</Link>
 			<div>
-				{/* {token ? (
+				{token ? (
 					<button type="button" onClick={logout} className="main-nav-link">
 						Logout
 					</button>
@@ -26,7 +26,7 @@ const Header = () => {
 						<i className="fa fa-user-circle"></i>
 						Sign In
 					</NavLink>
-				)} */}
+				)}
 			</div>
 		</nav>
     );

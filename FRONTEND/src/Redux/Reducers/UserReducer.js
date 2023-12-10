@@ -14,12 +14,12 @@ export const getUserReducer = createReducer(initialStateUser, (builder) => {
   console.log(getUserError.type);
 
   return builder
-     .addCase(loadUser, (state) => {
-       state.isLoading = true;
-       state.isLoggedIn = false;
-       state.user = {};
-       state.error = '';
-     })
+    //  .addCase(loadUser, (state) => {
+    //    state.isLoading = true;
+    //    state.isLoggedIn = false;
+    //    state.user = {};
+    //    state.error = '';
+    //  })
      .addCase(getUserSuccess, (state, action) => {
        state.isLoading = false;
        state.isLoggedIn = true;
