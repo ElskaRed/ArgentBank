@@ -1,0 +1,149 @@
+swagger: '2.0'
+info:
+  title: ArgentBank API documentation phase 2
+  description: Contains all available API endpoints for the transactions part of the application
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/accounts:
+    get:
+      security: 
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Get user accounts
+      description: Retrieves the accounts of the logged in user
+      parameters:
+        
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Accounts retrieved successfully
+          schema:
+            $ref: "#/definitions/Account"
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal Server Error
+  /user/account/{accountId}/transactions:
+    get:
+      tags:
+        - User Module
+      summary: Get user transactions
+      description: Retrieves transactions for a specific account
+      parameters:
+       
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions retrieved successfully
+          schema:
+            $ref: "#/definitions/Transactions"
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal Server Error
+  /user/account/{accountId}/transaction/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Get specific transaction
+      description: Retrieves one specific transaction
+      parameters:
+
+      produces:
+       - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successully
+          schema:
+            $ref: "#/definitions/Transaction"
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Transaction detail addition
+      description: Adds a detail on a specific transaction
+      parameters:
+
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Detail added successfully
+          schema:
+            $ref: "#/definitions/Transaction"
+        '400':
+          description: Invalid values
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transaction API
+      description: API for updating details on a specific user transaction
+      parameters:
+        
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction retrieved successully
+          schema:
+            $ref: "#/definitions/Transaction"
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transaction API
+      description: API for deleting details on a specific user transaction
+      parameters:
+       
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction retrieved successully
+          schema:
+            $ref: "#/definitions/Transaction"
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  Account:
+    type: object
+    properties:
+  Transactions:
+    type: object
+    properties:
+  Transaction:
+    type: object
+    properties:
+
+  
