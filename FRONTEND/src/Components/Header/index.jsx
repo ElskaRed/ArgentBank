@@ -1,13 +1,17 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from '../../assets/argentBankLogo.webp';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from "../../Redux/Actions/token";
 
 const Header = () => {
 	const selectToken = (state) => state.token.token;
 	const token = useSelector(selectToken);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const logout = () => {
-		console.log('test')
+		dispatch(logoutUser());
+		navigate('/');
 	  };
 	
     return (
@@ -18,7 +22,7 @@ const Header = () => {
 			</Link>
 			<div>
 				{token ? (
-					<button type="button" onClick={logout} className="main-nav-link">
+					<button type="button" onClick={logout} className="logout">
 						Logout
 					</button>
 				) : (

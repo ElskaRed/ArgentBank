@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadToken } from '../../Redux/Actions/token';
 import { loadUser } from '../../Redux/Actions/user';
@@ -18,7 +18,6 @@ function Login() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       setError('');
-  
       try {
         rememberMe ? localStorage.setItem('email', email) : localStorage.removeItem('email');
           await dispatch(loadToken(email, password)); 
@@ -34,6 +33,7 @@ function Login() {
      };
   
      const login = (token) => {
+        console.log('Logged in with token:', token);
        dispatch(loadUser(token));
        navigate('/user');
      };

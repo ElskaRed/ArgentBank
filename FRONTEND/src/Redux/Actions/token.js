@@ -4,12 +4,6 @@ import axios from 'axios';
 
 const baseURL = 'http://localhost:3001/api/v1/user/'
 
-export const getToken = createAction('GET_TOKEN', () => {
-  return {
-    payload: undefined,
-  };
-});
-
 export const getTokenSuccess = createAction(
   'GET_TOKEN_SUCCESS',
   (token) => {

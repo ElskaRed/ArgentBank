@@ -3,8 +3,6 @@ import axios from 'axios';
 
 const baseURL = 'http://localhost:3001/api/v1/user/';
 
-export const getUser = createAction('GET_USER');
-
 export const getUserSuccess = createAction(
   'GET_USER_SUCCESS',
   (user) => {
@@ -22,6 +20,7 @@ export const getUserError = createAction(
     }
   }
 );
+
 
 export const loadUser = (token) => {
   return (dispatch) => {

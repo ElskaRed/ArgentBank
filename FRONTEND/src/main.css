@@ -18,6 +18,12 @@ body {
   min-height: calc(100vh - 145px);
 }
 
+.logout {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
 .bg-dark {
   background-color: #12002b;
 }
