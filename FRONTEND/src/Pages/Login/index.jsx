@@ -25,6 +25,7 @@ function Login() {
   
          if (token) {
              login(token);
+             localStorage.setItem('email', email);
          }
        } catch (error) {
          console.error('Error during login:', error);
