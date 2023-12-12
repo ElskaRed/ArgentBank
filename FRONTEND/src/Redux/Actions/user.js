@@ -25,17 +25,18 @@ export const getUserError = createAction(
 
 export const loadUser = (token) => {
   return (dispatch) => {
-    dispatch(getUser())
+    dispatch(getUserSuccess({isLoading: true}))
     axios({
       method: 'POST',
       url: baseURL + 'profile',
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
-        dispatch(getUserSuccess(response.data))
+        dispatch(getUserSuccess({user: response.data, isLoading: false, isLoggedIn: false}))
+        console.log(token)
       })
       .catch((error) => {
-        dispatch(getUserError(error.message))
+        dispatch(getUserError({error: error.message, isLoading: false, isLoggedIn: false}))
       })
   }
 }

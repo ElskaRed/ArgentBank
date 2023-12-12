@@ -32,20 +32,20 @@ export const logoutUser = createAction('LOGOUT_USER');
 
 export const loadToken = (email, password) => {
   return (dispatch) => {
-    dispatch(getToken())
+    dispatch(getTokenSuccess({isGetting: true}))
     axios
       .post(baseURL + 'login', {
         email,
         password,
       })
       .then((response) => {
-        dispatch(getTokenSuccess(response.data.body.token))
+        dispatch(getTokenSuccess({token: response.data.body.token, tokenTrue: true, isGetting: false}))
         localStorage.setItem('token', response.data.body.token)
         const token = localStorage.getItem('token')
         dispatch(loadUser(token))
       })
       .catch((error) => {
-        dispatch(getTokenError(error.message))
+        dispatch(getTokenError({error: error.message, isGetting: false, tokenTrue: false}))
       })
   }
 }
