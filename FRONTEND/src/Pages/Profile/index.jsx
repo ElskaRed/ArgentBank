@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 function Profile() {
 
 	const accounts = accountsPlaceHolder
-	const selectUser = (state) => state.user.user
+	const selectUser = (state) => state.user.user.body
 	const user = useSelector(selectUser)
 	const firstName = user.firstName
 	const lastName = user.lastName
