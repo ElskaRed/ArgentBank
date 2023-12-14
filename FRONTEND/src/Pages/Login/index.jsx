@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loadToken } from '../../Redux/Actions/token';
-import { loadUser } from '../../Redux/Actions/user';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -10,34 +9,22 @@ function Login() {
     const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState('');
 
-    const selectToken = (state) => state.token.token;
-    const token = useSelector(selectToken);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-  
+
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       setError('');
       try {
         rememberMe ? localStorage.setItem('email', email) : localStorage.removeItem('email');
-          await dispatch(loadToken(email, password)); 
-         console.log(token);
-  
-         if (token) {
-             login(token);
-             localStorage.setItem('email', email);
-         }
-       } catch (error) {
+          await dispatch(loadToken(email, password, navigate)); 
+            } catch (error) {
          console.error('Error during login:', error);
          setError('Your email or password is invalid');
        }
      };
-  
-     const login = (token) => {
-        console.log('Logged in with token:', token);
-       dispatch(loadUser(token));
-       navigate('/user');
-     };
+
   
     const handleRememberMe = () => {
       setRememberMe(!rememberMe);

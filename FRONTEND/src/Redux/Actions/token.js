@@ -22,25 +22,21 @@ export const getTokenError = createAction(
   }
 );
 
-export const logoutUser = createAction('LOGOUT_USER');
+export const loadToken = (email, password, navigate) => {
+  return async (dispatch) => {
+    dispatch(getTokenSuccess({ isGetting: true }));
+    try {
+      const response = await axios.post(baseURL + 'login', { email, password });
+      const token = response.data.body.token;
+      localStorage.setItem('token', token);
+      dispatch(getTokenSuccess({ token: token, tokenTrue: true, isGetting: false }));
 
-export const loadToken = (email, password) => {
-  return (dispatch) => {
-    dispatch(getTokenSuccess({isGetting: true}))
-    axios
-      .post(baseURL + 'login', {
-        email,
-        password,
-      })
-      .then((response) => {
-        dispatch(getTokenSuccess({token: response.data.body.token, tokenTrue: true, isGetting: false}))
-        localStorage.setItem('token', response.data.body.token)
-        const token = localStorage.getItem('token')
-        dispatch(loadUser(token))
-      })
-      .catch((error) => {
-        dispatch(getTokenError({error: error.message, isGetting: false, tokenTrue: false}))
-      })
-  }
-}
+      await dispatch(loadUser(token));
+      navigate('/user');
+    } catch (error) {
+      dispatch(getTokenError({ error: error.message, isGetting: false, tokenTrue: false }));
+    }
+  };
+};
+
 

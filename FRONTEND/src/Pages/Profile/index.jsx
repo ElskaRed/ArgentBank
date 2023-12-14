@@ -1,15 +1,15 @@
 import Account from '../../Components/Account';
-import accountsIron from '../../data/accountsIron';
-import accountsCaptain from '../../data/accountsCaptain';
+import accountsPlaceHolder from '../../data/accountsPlaceHolder';
+import { useSelector } from 'react-redux'
 
 function Profile() {
-	const userEmail = localStorage.getItem('email');
-	let accounts;
-	if (userEmail === 'steve@rogers.com') {
-		accounts = accountsCaptain;
-	} else if (userEmail === 'tony@stark.com') {
-		accounts = accountsIron;
-	}
+
+	const accounts = accountsPlaceHolder
+	const selectUser = (state) => state.user.user
+	const user = useSelector(selectUser)
+	const firstName = user.firstName
+	const lastName = user.lastName
+
 
 	return (
 		<main className="main bg-dark">
@@ -17,19 +17,19 @@ function Profile() {
 				<h1>
 					Welcome back
 					<br />
-					Tony Jarvis!
+					{firstName} {lastName}
 				</h1>
 				<button className="edit-button">Edit Name</button>
 			</div>
 			<h2 className="sr-only">Accounts</h2>
 			{accounts.map((account, index) => (
 				<Account
-					key={index}
+					key={`account-${index}`}
 					title={account.title}
 					amount={account.amount}
 					description={account.description}
 				/>
-		))}
+			))}
 		</main>
 	);
 }

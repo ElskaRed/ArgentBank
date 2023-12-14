@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { logoutUser, getTokenSuccess, getTokenError } from '../Actions/token';
+import { getTokenSuccess, getTokenError } from '../Actions/token';
+import { logout } from '../Actions/user';
 
 const initialStateToken = {
   isGetting: false,
@@ -16,7 +17,7 @@ export const tokenReducer = createReducer(initialStateToken, (builder) => {
     .addCase(getTokenError, (state, action) => {
       return {...state, ...action.payload}
     })
-    .addCase(logoutUser, (state, action) => {
-      return {...initialStateToken}
-    });
+    .addCase(logout, (state, action) => {
+      return initialStateToken
+    })
 });

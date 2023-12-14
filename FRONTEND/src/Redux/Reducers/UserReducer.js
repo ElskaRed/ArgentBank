@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { getUserSuccess, getUserError } from '../Actions/user';
+import { getUserSuccess, getUserError, logout } from '../Actions/user';
+
 
 const initialStateUser = {
   isLoading: false,
@@ -16,6 +17,9 @@ export const getUserReducer = createReducer(initialStateUser, (builder) => {
      })
      .addCase(getUserError, (state, action) => {
       return {...state, ...action.payload}
+     })
+     .addCase(logout, (state, action) => {
+      return initialStateUser;
      })
    
  });

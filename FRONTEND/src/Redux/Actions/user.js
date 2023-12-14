@@ -21,6 +21,7 @@ export const getUserError = createAction(
   }
 );
 
+export const logout = createAction('LOGOUT_USER');
 
 export const loadUser = (token) => {
   return (dispatch) => {
@@ -31,7 +32,7 @@ export const loadUser = (token) => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
-        dispatch(getUserSuccess({user: response.data, isLoading: false, isLoggedIn: false}))
+        dispatch(getUserSuccess({user: response.data, isLoading: false, isLoggedIn: true}))
         console.log(token)
       })
       .catch((error) => {
