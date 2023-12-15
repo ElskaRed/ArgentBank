@@ -26,17 +26,22 @@ export const logout = createAction('LOGOUT_USER');
 export const loadUser = (token) => {
   return (dispatch) => {
     dispatch(getUserSuccess({isLoading: true}))
-    axios({
-      method: 'POST',
-      url: baseURL + 'profile',
-      headers: { Authorization: `Bearer ${token}` },
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'POST',
+        url: baseURL + 'profile',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((response) => {
+          dispatch(getUserSuccess({user: response.data, isLoading: false, isLoggedIn: true}))
+          resolve(response.data);
+          console.log(token)
+        })
+        .catch((error) => {
+          dispatch(getUserError({error: error.message, isLoading: false, isLoggedIn: false}))
+          reject(error);
+        })
     })
-      .then((response) => {
-        dispatch(getUserSuccess({user: response.data, isLoading: false, isLoggedIn: true}))
-        console.log(token)
-      })
-      .catch((error) => {
-        dispatch(getUserError({error: error.message, isLoading: false, isLoggedIn: false}))
-      })
+
   }
 }
