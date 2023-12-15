@@ -23,6 +23,26 @@ export const getUserError = createAction(
 
 export const logout = createAction('LOGOUT_USER');
 
+export const editUser = createAction('EDIT_USER')
+
+export const editUserSuccess = createAction(
+  'EDIT_USER_SUCCESS',
+  (user) => {
+    return {
+      payload: user,
+    }
+  }
+)
+
+export const editUserError = createAction(
+  'EDIT_USER_ERROR',
+  (error) => {
+    return {
+      payload: error,
+    }
+  }
+)
+
 export const loadUser = (token) => {
   return (dispatch) => {
     dispatch(getUserSuccess({isLoading: true}))
@@ -43,5 +63,24 @@ export const loadUser = (token) => {
         })
     })
 
+  }
+}
+
+export const putEditUser = (userName) => {
+  const token = localStorage.getItem('token')
+  return (dispatch) => {
+    dispatch(editUser())
+    axios({
+      method: 'PUT',
+      url: baseURL + 'profile',
+      headers: { Authorization: `Bearer ${token}` },
+      data: userName,
+    })
+      .then((response) => {
+        dispatch(editUserSuccess(response.data))
+      })
+      .catch((error) => {
+        dispatch(editUserError(error.message))
+      })
   }
 }

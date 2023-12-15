@@ -1,9 +1,10 @@
 import Account from '../../Components/Account';
 import accountsPlaceHolder from '../../data/accountsPlaceHolder';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Input from '../../Components/Input';
+import { putEditUser } from '../../Redux/Actions/user';
 
 function Profile() {
 
@@ -15,6 +16,8 @@ function Profile() {
 	const [userName, setUserName] = useState(user.userName)
 	const navigate = useNavigate
 	const [editName, setEditName] = useState(false)
+	const [newUserName, setNewUserName] = useState('')
+	const dispatch = useDispatch()
 
 	const handleUserNameChange = (event) => {
 		setUserName(event.target.value);
@@ -22,6 +25,9 @@ function Profile() {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		dispatch(putEditUser(newUserName))
+		setEditName(false)
+		setNewUserName()
 	};
 
 	const handleCancel = () => {
