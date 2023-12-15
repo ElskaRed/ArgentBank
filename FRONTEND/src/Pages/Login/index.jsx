@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loadToken } from '../../Redux/Actions/token';
-import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -10,7 +9,6 @@ function Login() {
     const [error, setError] = useState('');
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
 
     const handleSubmit = async (e) => {
@@ -18,7 +16,7 @@ function Login() {
       setError('');
       try {
         rememberMe ? localStorage.setItem('email', email) : localStorage.removeItem('email');
-          await dispatch(loadToken(email, password, navigate)); 
+          await dispatch(loadToken(email, password)); 
             } catch (error) {
          console.error('Error during login:', error);
          setError('Your email or password is invalid');
