@@ -78,6 +78,7 @@ export const putEditUser = (userName) => {
     })
       .then((response) => {
         dispatch(editUserSuccess(response.data))
+        console.log(userName)
       })
       .catch((error) => {
         dispatch(editUserError(error.message))
