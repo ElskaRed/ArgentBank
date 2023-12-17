@@ -18,37 +18,54 @@ paths:
       summary: Get user accounts
       description: Retrieves the accounts of the logged in user
       parameters:
-        
+        - in: header
+          name: Authorization
+          description: Bearer token required to access this information
+          type: string
+          required: true
       produces:
         - application/json
       responses:
         '200':
           description: Accounts retrieved successfully
           schema:
-            $ref: "#/definitions/Account"
+            $ref: "#/definitions/AccountsResponse"
         '400':
           description: Invalid request
         '500':
           description: Internal Server Error
+
   /user/account/{accountId}/transactions:
     get:
+      security:
+        - Bearer: []
       tags:
         - User Module
       summary: Get user transactions
       description: Retrieves transactions for a specific account
       parameters:
-       
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: ID of the specific account
+        - in: header
+          name: Authorization
+          description: Bearer token required to access this information
+          type: string
+          required: true
       produces:
         - application/json
       responses:
         '200':
           description: Transactions retrieved successfully
           schema:
-            $ref: "#/definitions/Transactions"
+            $ref: "#/definitions/AccountTransactionsResponse"
         '400':
           description: Invalid request
         '500':
           description: Internal Server Error
+
   /user/account/{accountId}/transaction/{transactionId}:
     get:
       security:
@@ -58,92 +75,215 @@ paths:
       summary: Get specific transaction
       description: Retrieves one specific transaction
       parameters:
-
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: ID of the specific account
+        - in: path
+          name: transactionId
+          type: integer
+          required: true
+          description: ID of the specific transaction
+        - in: header
+          name: Authorization
+          description: Bearer token required to access this information
+          type: string
+          required: true
       produces:
        - application/json
       responses:
         '200':
-          description: Transaction retrieved successully
+          description: Transaction retrieved successfully
           schema:
-            $ref: "#/definitions/Transaction"
+            $ref: "#/definitions/TransactionResponse"
         '400':
           description: Invalid request
         '500':
           description: Internal Server Error
+
     post:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: Transaction detail addition
-      description: Adds a detail on a specific transaction
+      summary: Add transaction detail
+      description: Adds a detail to a specific transaction
       parameters:
-
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: ID of the specific account
+        - in: path
+          name: transactionId
+          type: integer
+          required: true
+          description: ID of the specific transaction
+        - in: header
+          name: Authorization
+          description: Bearer token required to access this information
+          type: string
+          required: true
+        - in: body
+          name: body
+          description: Details to add to the transaction
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionDetail'
       produces:
         - application/json
       responses:
         '200':
-          description: Detail added successfully
+          description: Transaction detail added successfully
           schema:
-            $ref: "#/definitions/Transaction"
+            $ref: "#/definitions/TransactionResponse"
         '400':
           description: Invalid values
         '500':
           description: Internal Server Error
+
     put:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: User Transaction API
-      description: API for updating details on a specific user transaction
+      summary: Update transaction detail
+      description: Updates details of a specific transaction
       parameters:
-        
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: ID of the specific account
+        - in: path
+          name: transactionId
+          type: integer
+          required: true
+          description: ID of the specific transaction
+        - in: header
+          name: Authorization
+          description: Bearer token required to access this information
+          type: string
+          required: true
+        - in: body
+          name: body
+          description: Updated details for the transaction
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionDetail'
       produces:
         - application/json
       responses:
         '200':
-          description: User transaction retrieved successully
+          description: Transaction details updated successfully
           schema:
-            $ref: "#/definitions/Transaction"
+            $ref: "#/definitions/TransactionResponse"
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '500':
           description: Internal Server Error
+
     delete:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: User Transaction API
-      description: API for deleting details on a specific user transaction
+      summary: Delete transaction detail
+      description: Deletes details of a specific transaction
       parameters:
-       
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: ID of the specific account
+        - in: path
+          name: transactionId
+          type: integer
+          required: true
+          description: ID of the specific transaction
+        - in: header
+          name: Authorization
+          description: Bearer token required to access this information
+          type: string
+          required: true
       produces:
         - application/json
       responses:
         '200':
-          description: User transaction retrieved successully
+          description: Transaction details deleted successfully
           schema:
-            $ref: "#/definitions/Transaction"
+            $ref: "#/definitions/TransactionResponse"
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '500':
           description: Internal Server Error
+
 securityDefinitions:
   Bearer:
     type: apiKey
     name: Authorization
     in: header
+
 definitions:
+  AccountsResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      accounts:
+        type: array
+        items:
+          $ref: '#/definitions/Account'
   Account:
     type: object
     properties:
-  Transactions:
+      id:
+        type: integer
+      balance:
+        type: number
+      type:
+        type: string
+  AccountTransactionsResponse:
     type: object
     properties:
+      status:
+        type: integer
+      message:
+        type: string
+      transactions:
+        type: array
+        items:
+          $ref: '#/definitions/Transaction'
   Transaction:
     type: object
     properties:
-
-  
+      id:
+        type: integer
+      date:
+        type: string
+      amount:
+        type: number
+      type:
+        type: string
+      category:
+        type: string
+      notes:
+        type: string
+  TransactionResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      transaction:
+        $ref: '#/definitions/Transaction'
+  TransactionDetail:
+    type: object
+    properties:
+      detail:
+        type: string
+        description: Specific details related to the transaction
