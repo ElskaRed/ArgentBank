@@ -38,5 +38,3 @@ export const loadToken = (email, password, navigate) => {
     }
   };
 };
-
-

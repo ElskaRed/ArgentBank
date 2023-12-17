@@ -55,7 +55,6 @@ export const loadUser = (token) => {
         .then((response) => {
           dispatch(getUserSuccess({user: response.data, isLoading: false, isLoggedIn: true}))
           resolve(response.data);
-          console.log(token)
         })
         .catch((error) => {
           dispatch(getUserError({error: error.message, isLoading: false, isLoggedIn: false}))

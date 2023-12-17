@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadToken } from '../../Redux/Actions/token';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +7,8 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    const [error, setError] = useState('');
+    const tokenTrue = useSelector((state) => state.token.tokenTrue)
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -15,17 +16,12 @@ function Login() {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      setError('');
-      try {
-        rememberMe ? localStorage.setItem('email', email) : localStorage.removeItem('email');
-          await dispatch(loadToken(email, password, navigate)); 
-            } catch (error) {
-         console.error('Error during login:', error);
-         setError('Your email or password is invalid');
-       }
-     };
+      setHasSubmitted(true);
+      rememberMe ? localStorage.setItem('email', email) : localStorage.removeItem('email');
+      await dispatch(loadToken(email, password, navigate)); 
+    };
 
-  
+
     const handleRememberMe = () => {
       setRememberMe(!rememberMe);
     };
@@ -62,10 +58,12 @@ function Login() {
                             <input type="checkbox" id="remember-me" onChange={handleRememberMe} />
                             <label htmlFor="remember-me">Remember me</label>
                         </div>
+                        {hasSubmitted && tokenTrue === false && (
+                            <p className='error-message'>Email or password invalid</p>
+                        )}
                         <button type="submit" className="sign-in-button">
                             Sign In
                         </button>
-                        {error && <p className="error-message">{error}</p>}
                     </form>
                 </section>
             </div>
