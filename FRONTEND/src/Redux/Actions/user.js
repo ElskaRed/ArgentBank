@@ -74,14 +74,15 @@ export const putEditUser = (userName) => {
       method: 'PUT',
       url: baseURL + 'profile',
       headers: { Authorization: `Bearer ${token}` },
-      data: userName,
+      data: { userName },
     })
       .then((response) => {
-        dispatch(editUserSuccess(response.data))
+        dispatch(editUserSuccess(response.data));
+        dispatch(loadUser(token));
         console.log(userName)
       })
       .catch((error) => {
-        dispatch(editUserError(error.message))
+        dispatch(editUserError(error.message));
       })
   }
 }

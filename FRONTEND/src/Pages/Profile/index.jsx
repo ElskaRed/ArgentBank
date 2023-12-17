@@ -16,7 +16,6 @@ function Profile() {
 	const [userName, setUserName] = useState(user.userName)
 	const navigate = useNavigate
 	const [editName, setEditName] = useState(false)
-	const [newUserName, setNewUserName] = useState('')
 	const dispatch = useDispatch()
 
 	const handleUserNameChange = (event) => {
@@ -25,9 +24,9 @@ function Profile() {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		dispatch(putEditUser(newUserName))
+		dispatch(putEditUser(userName))
 		setEditName(false)
-		setNewUserName()
+		setUserName(user.userName)
 	};
 
 	const handleCancel = () => {
@@ -41,7 +40,7 @@ function Profile() {
 
 
 	return (
-		<main className="main bg-dark">
+		<main className="main bg-dark main-user">
 			<div className="header">
 				<h1>
 					Welcome back
@@ -49,38 +48,44 @@ function Profile() {
 					{firstName} {lastName}
 				</h1>
 				{editName ? (
-					 <form onSubmit={handleSubmit}>
-					 <Input
-					   label="User Name"
-					   type="text"
-					   name="username"
-					   value={userName}
-					   onChange={handleUserNameChange}
-					 />
-					 <Input
-					   label="First Name"
-					   type="text"
-					   name="firstname"
-					   value={firstName}
-					   readOnly
-					 />
-					 <Input
-					   label="Last Name"
-					   type="text"
-					   name="lastname"
-					   value={lastName}
-					   readOnly
-					 />
-					 <button type="submit">Save</button>
-					 <button type="button" onClick={handleCancel}>Cancel</button>
+					 <form className="edit-wrapper" onSubmit={handleSubmit}>
+						<h2 className="edit-title">Edit user info</h2>
+						<div className="edit-form-inputs">
+							<Input
+								label="User Name :"
+								type="text"
+								name="username"
+								value={userName}
+								onChange={handleUserNameChange}
+							/>
+							<Input
+								label="First Name :"
+								type="text"
+								name="firstname"
+								value={firstName}
+								readOnly
+							/>
+							<Input
+								label="Last Name :"
+								type="text"
+								name="lastname"
+								value={lastName}
+								readOnly
+							/>
+						</div>
+						<div className="form-buttons">
+							<button type="submit" className="form-button">Save</button>
+							<button type="button" className="form-button" onClick={handleCancel}>Cancel</button>
+						</div>
 				   </form>
 				) : (
 					<button
-					className="edit-button"
-					onClick={() => {
-						setEditName(true)
-					}}
-					> Edit Name
+						className="edit-button"
+						onClick={() => {
+							setEditName(true)
+						}}
+					> 
+						Edit Name
 					</button>
 				)}
 			</div>
