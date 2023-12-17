@@ -2,7 +2,7 @@ import Account from '../../Components/Account';
 import accountsPlaceHolder from '../../data/accountsPlaceHolder';
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Input from '../../Components/Input';
 import { putEditUser } from '../../Redux/Actions/user';
 
@@ -18,6 +18,10 @@ function Profile() {
 	const [editName, setEditName] = useState(false)
 	const dispatch = useDispatch()
 
+	useEffect(() => {
+        setUserName(user.userName);
+    }, [user.userName]);
+
 	const handleUserNameChange = (event) => {
 		setUserName(event.target.value);
 	};
@@ -26,7 +30,6 @@ function Profile() {
 		event.preventDefault();
 		dispatch(putEditUser(userName))
 		setEditName(false)
-		setUserName(user.userName)
 	};
 
 	const handleCancel = () => {
