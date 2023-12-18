@@ -55,7 +55,6 @@ export const loadUser = (token) => {
         .then((response) => {
           dispatch(getUserSuccess({user: response.data, isLoading: false, isLoggedIn: true}))
           resolve(response.data);
-          console.log(token)
         })
         .catch((error) => {
           dispatch(getUserError({error: error.message, isLoading: false, isLoggedIn: false}))
@@ -74,14 +73,15 @@ export const putEditUser = (userName) => {
       method: 'PUT',
       url: baseURL + 'profile',
       headers: { Authorization: `Bearer ${token}` },
-      data: userName,
+      data: { userName },
     })
       .then((response) => {
-        dispatch(editUserSuccess(response.data))
+        dispatch(editUserSuccess(response.data));
+        dispatch(loadUser(token));
         console.log(userName)
       })
       .catch((error) => {
-        dispatch(editUserError(error.message))
+        dispatch(editUserError(error.message));
       })
   }
 }
