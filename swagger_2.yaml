@@ -286,4 +286,4 @@ definitions:
     properties:
       detail:
         type: string
-        description: Specific details related to the transaction
+        description: Specific detail related to the transaction

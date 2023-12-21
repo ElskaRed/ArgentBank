@@ -10,6 +10,9 @@ const Header = () => {
 	const token = useSelector(selectToken);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const selectUser = (state) => state.user.user.body
+	const user = useSelector(selectUser)
+	const firstName = user?.firstName || 'Profile'
 
 	const logoutUser = () => {
 		dispatch(logout());
@@ -26,7 +29,7 @@ const Header = () => {
 					<div className="plustard2">
 						<Link className="main-nav-link profil" to="/user">
 							<FontAwesomeIcon className="in-icon" icon={faCircleUser} style={{color: "#2c3e50",}} />
-							Profile
+							{firstName}
 						</Link>
 						<button type="button" onClick={logoutUser} className="logout main-nav-link">
 							<FontAwesomeIcon className="out-icon" icon={faRightFromBracket} style={{color: "#2c3e50",}} />
