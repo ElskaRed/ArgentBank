@@ -94,6 +94,7 @@ paths:
           name: month
           description: Month (YYYY-MM) to filter transactions
           type: string
+          format: date
           required: true
       produces:
        - application/json
@@ -269,6 +270,7 @@ definitions:
         type: integer
       date:
         type: string
+        pattern: "DD/MM/YY"
       amount:
         type: number
       type:
