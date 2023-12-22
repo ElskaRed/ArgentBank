@@ -90,6 +90,11 @@ paths:
           description: Bearer token required to access this information
           type: string
           required: true
+        - in: query
+          name: month
+          description: Month (YYYY-MM) to filter transactions
+          type: string
+          required: true
       produces:
        - application/json
       responses:
